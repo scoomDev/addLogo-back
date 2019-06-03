@@ -11,4 +11,9 @@
 ###> scoomdev ###
 .idea/
 ###< scoomdev ###
-symfony.lock
+
+composer.lock
+
+###> symfony/web-server-bundle ###
+/.web-server-pid
+###< symfony/web-server-bundle ###
