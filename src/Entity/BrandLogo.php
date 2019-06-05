@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -42,6 +44,16 @@ class BrandLogo
      * @ORM\Column(type="string", length=255)
      */
     private $accessPwd;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\BrandColor")
+     */
+    private $colors;
+
+    public function __construct()
+    {
+        $this->colors = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -104,6 +116,32 @@ class BrandLogo
     public function setAccessPwd(string $accessPwd): self
     {
         $this->accessPwd = $accessPwd;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|BrandColor[]
+     */
+    public function getColors(): Collection
+    {
+        return $this->colors;
+    }
+
+    public function addColor(BrandColor $color): self
+    {
+        if (!$this->colors->contains($color)) {
+            $this->colors[] = $color;
+        }
+
+        return $this;
+    }
+
+    public function removeColor(BrandColor $color): self
+    {
+        if ($this->colors->contains($color)) {
+            $this->colors->removeElement($color);
+        }
 
         return $this;
     }
