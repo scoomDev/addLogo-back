@@ -4,8 +4,8 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ApiResource()
@@ -26,16 +26,6 @@ class BrandLogo
     private $brandName;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $logo1;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $logo2;
-
-    /**
      * @ORM\Column(type="datetime")
      */
     private $createdAt;
@@ -46,9 +36,9 @@ class BrandLogo
     private $accessPwd;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\BrandColor")
+     * @ORM\Column(type="json")
      */
-    private $colors;
+    private $logoParts = [];
 
     public function __construct()
     {
@@ -68,30 +58,6 @@ class BrandLogo
     public function setBrandName(string $brandName): self
     {
         $this->brandName = $brandName;
-
-        return $this;
-    }
-
-    public function getLogo1(): ?string
-    {
-        return $this->logo1;
-    }
-
-    public function setLogo1(?string $logo1): self
-    {
-        $this->logo1 = $logo1;
-
-        return $this;
-    }
-
-    public function getLogo2(): ?string
-    {
-        return $this->logo2;
-    }
-
-    public function setLogo2(?string $logo2): self
-    {
-        $this->logo2 = $logo2;
 
         return $this;
     }
@@ -120,28 +86,14 @@ class BrandLogo
         return $this;
     }
 
-    /**
-     * @return Collection|BrandColor[]
-     */
-    public function getColors(): Collection
+    public function getLogoParts(): ?array
     {
-        return $this->colors;
+        return $this->logoParts;
     }
 
-    public function addColor(BrandColor $color): self
+    public function setLogoParts(array $logoParts): self
     {
-        if (!$this->colors->contains($color)) {
-            $this->colors[] = $color;
-        }
-
-        return $this;
-    }
-
-    public function removeColor(BrandColor $color): self
-    {
-        if ($this->colors->contains($color)) {
-            $this->colors->removeElement($color);
-        }
+        $this->logoParts = $logoParts;
 
         return $this;
     }
